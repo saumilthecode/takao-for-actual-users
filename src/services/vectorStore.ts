@@ -271,7 +271,7 @@ export async function buildProfileUpdateFromSignals(
   userId: string,
   signals: Record<string, number>,
   confidence: number
-): ProfileUpdate {
+): Promise<ProfileUpdate> {
   const user = await getUserById(userId);
   const baseTraits = user?.traits || DEFAULT_TRAITS;
   const traitDeltas: Traits = {
