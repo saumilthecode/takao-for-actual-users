@@ -16,6 +16,8 @@ import { getKNearestNeighbors } from '@/src/services/vectorStore';
 import { computeUMAP } from '@/src/services/projection';
 import { computeClusters } from '@/src/services/clustering';
 
+export const dynamic = 'force-dynamic';
+
 export interface GraphNode {
   id: string;
   name: string;
