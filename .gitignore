@@ -1,0 +1,99 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Testing
+coverage/
+.nyc_output
+*.lcov
+.jest/
+
+# Production
+build/
+dist/
+.next/
+out/
+.vercel
+.netlify
+
+# Environment
+.env
+.env.*
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Ralph
+archive/
+prd.json.tmp
+progress.txt.bak
+
+# TypeScript
+*.tsbuildinfo
+.tsbuildinfo
+
+# Next.js
+.next/
+out/
+.vercel
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+.cache/
+.temp/
+tmp/
+temp/
+
+# Debug
+.vscode/launch.json
+.vscode/tasks.json
+
+# Misc
+*.pid
+*.seed
+*.pid.lock
+.npm
+.eslintcache
+.stylelintcache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/

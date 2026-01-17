@@ -1,0 +1,184 @@
+/**
+ * ============================================================
+ * 📄 FILE: frontend/app/globals.css
+ * ============================================================
+ * 
+ * 🎯 PURPOSE:
+ *    Global styles and CSS variables for the app.
+ *    Dark theme optimized for 3D visualization.
+ * 
+ * 🛠️ TECH USED:
+ *    - Tailwind CSS directives
+ *    - CSS custom properties (shadcn/ui theming)
+ * 
+ * ============================================================
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 71 37% 69%;
+    --foreground: 0 0% 0%;
+
+    --card: 71 37% 69%;
+    --card-foreground: 0 0% 0%;
+
+    --primary: 0 0% 0%;
+    --primary-foreground: 71 37% 69%;
+
+    --secondary: 71 37% 69%;
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 71 37% 69%;
+    --muted-foreground: 0 0% 0%;
+
+    --accent: 71 37% 69%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 0% 0%;
+    --destructive-foreground: 71 37% 69%;
+
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 0 0% 0%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans), system-ui, -apple-system, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+code,
+pre,
+kbd,
+samp,
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+/* Ambient leaf image */
+.ambient-image {
+  position: fixed;
+  right: -6vw;
+  top: 0;
+  height: 100vh;
+  width: 46vw;
+  object-fit: cover;
+  pointer-events: none;
+  mask-image: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  opacity: 0.6;
+  z-index: 0;
+  animation: ambient-float 18s ease-in-out infinite;
+}
+
+.ambient-caption {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  max-width: 320px;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: hsl(var(--foreground));
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes ambient-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-14px, -10px, 0) scale(1.02);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.indicator-float {
+  display: inline-block;
+  animation: indicator-float 2.6s ease-in-out infinite;
+}
+
+@keyframes indicator-float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.step-enter {
+  animation: step-enter 420ms ease-out both;
+}
+
+.step-enter-delay {
+  animation: step-enter 520ms ease-out both;
+  animation-delay: 80ms;
+}
+
+.step-enter-delay-2 {
+  animation: step-enter 600ms ease-out both;
+  animation-delay: 140ms;
+}
+
+@keyframes step-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* Glow effect for selected nodes */
+.node-glow {
+  filter: drop-shadow(0 0 8px hsl(var(--primary)));
+}
+
+/* Graph container */
+.graph-container {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, hsl(var(--background)) 0%, hsl(var(--background)) 100%);
+}

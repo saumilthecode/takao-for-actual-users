@@ -1,0 +1,3 @@
+# Ralph Progress Log
+
+This file tracks learnings and context from each Ralph iteration.

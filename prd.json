@@ -1,0 +1,81 @@
+{
+  "branchName": "graph-visualization-mvp",
+  "featureName": "3D Graph Visualization with Match Explanation",
+  "description": "Build a 3D force graph visualization with hover tooltips, click interactions to show top matches, and a match explanation panel showing similarity scores and top contributing vector dimensions.",
+  "userStories": [
+    {
+      "id": "story-1",
+      "title": "Create SocialGraph component with ForceGraph3D",
+      "description": "Create a new SocialGraph component in frontend/components/ that fetches graph data from GET /graph and renders it using react-force-graph-3d",
+      "priority": 10,
+      "passes": true,
+      "acceptanceCriteria": [
+        "Component exists at frontend/components/SocialGraph.tsx",
+        "Fetches data from http://localhost:4000/graph",
+        "Renders ForceGraph3D with nodes and links",
+        "Graph displays correctly in the Space tab"
+      ]
+    },
+    {
+      "id": "story-2",
+      "title": "Add hover tooltips showing name, age, uni",
+      "description": "When hovering over a node, show a tooltip displaying the user's name, age, and university",
+      "priority": 9,
+      "passes": false,
+      "acceptanceCriteria": [
+        "Hovering over a node shows tooltip",
+        "Tooltip displays: name, age, uni",
+        "Tooltip is styled and readable"
+      ]
+    },
+    {
+      "id": "story-3",
+      "title": "Click node to highlight neighbor edges and show top matches",
+      "description": "When clicking a node, highlight all edges connected to it and display the top 5 matches in a sidebar or panel",
+      "priority": 8,
+      "passes": false,
+      "acceptanceCriteria": [
+        "Clicking a node highlights its connected edges",
+        "Top 5 matches are displayed (by similarity score)",
+        "Matches show: name, similarity score, and basic info"
+      ]
+    },
+    {
+      "id": "story-4",
+      "title": "Add match explanation panel with similarity score",
+      "description": "When a match is selected, show a panel that displays the similarity score between the selected node and the match",
+      "priority": 7,
+      "passes": false,
+      "acceptanceCriteria": [
+        "Match explanation panel appears when match is clicked",
+        "Panel shows similarity score (0-1 range)",
+        "Score is clearly displayed and formatted"
+      ]
+    },
+    {
+      "id": "story-5",
+      "title": "Show top 2-3 vector dimensions contributing most to match",
+      "description": "In the match explanation panel, calculate and display the top 2-3 vector dimensions that contribute most to the similarity (using absolute diff or dot product contribution)",
+      "priority": 6,
+      "passes": false,
+      "acceptanceCriteria": [
+        "Panel shows top 2-3 contributing dimensions",
+        "Dimensions are labeled (e.g., 'openness', 'extraversion')",
+        "Contribution values are displayed",
+        "Uses GET /graph/match/:id1/:id2 endpoint or calculates locally"
+      ]
+    },
+    {
+      "id": "story-6",
+      "title": "Ensure chat updates trigger graph refresh",
+      "description": "When a user completes the chat onboarding and their vector is updated, the graph should refresh to show updated positions and connections",
+      "priority": 5,
+      "passes": false,
+      "acceptanceCriteria": [
+        "After chat updates user vector, graph refreshes",
+        "New positions/connections are visible",
+        "No manual refresh needed"
+      ]
+    }
+  ]
+}
