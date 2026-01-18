@@ -3,13 +3,13 @@ import Link from 'next/link';
 export default function About() {
   return (
     <main className="min-h-screen bg-background">
-      <header className="border-b border-border px-6 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+      <header className="border-b border-border px-4 py-3 sm:px-6 sm:py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between max-w-7xl mx-auto">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold">Takoa</h1>
-            <span className="text-muted-foreground text-sm ml-2">Find Your People</span>
+            <h1 className="text-lg font-bold sm:text-xl">Takoa</h1>
+            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2">Find Your People</span>
           </div>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
             <Link href="/" className="transition-colors hover:text-foreground">
               Home
             </Link>
@@ -18,13 +18,13 @@ export default function About() {
         </div>
       </header>
 
-      <section className="max-w-3xl mx-auto px-6 py-12 space-y-8 text-foreground">
+      <section className="max-w-3xl mx-auto px-4 py-8 sm:px-6 sm:py-12 space-y-6 sm:space-y-8 text-foreground">
         <div className="space-y-3">
-          <h2 className="text-3xl font-semibold">Takoa - Find Your People</h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold">Takoa - Find Your People</h2>
           <p className="text-sm text-muted-foreground">Inspired by wabi.ai&apos;s about page.</p>
         </div>
 
-        <div className="space-y-5 text-base leading-relaxed">
+        <div className="space-y-5 text-sm sm:text-base leading-relaxed">
           <p>
             Apps like Bumble BFF and offline events such as Timeleft and weAreNeverReallyStrangers
             promised a better way to make friends. Friend-finder apps full of promise.
