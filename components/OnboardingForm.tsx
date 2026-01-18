@@ -50,7 +50,7 @@ export default function OnboardingForm({ onComplete }: OnboardingFormProps) {
   return (
     <Card className="max-w-xl mx-auto">
       <CardHeader>
-        <CardTitle className="text-xl">Welcome to Takoa</CardTitle>
+        <CardTitle className="text-lg sm:text-xl">Welcome to Takoa</CardTitle>
         <p className="text-sm text-muted-foreground">
           Tell us a bit about you to start matching you with your circle.
         </p>

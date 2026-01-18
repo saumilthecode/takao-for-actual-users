@@ -235,10 +235,10 @@ export default function ChatInterface({
   const socialPlan = itinerary?.friday_social;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
       {/* Chat Window */}
       <Card className="lg:col-span-2">
-        <CardHeader className="flex flex-row items-center justify-between pb-3">
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-3">
           <CardTitle className="flex items-center gap-2">
             <Bot className="h-5 w-5 text-primary" />
             Signal Chat
@@ -252,7 +252,7 @@ export default function ChatInterface({
         </CardHeader>
         <CardContent>
           {/* Messages */}
-          <ScrollArea className="h-[450px] pr-4">
+          <ScrollArea className="h-[55vh] sm:h-[450px] pr-3 sm:pr-4">
             <div className="space-y-4 pr-4">
               {messages.map((msg, idx) => (
                 <div
@@ -308,7 +308,7 @@ export default function ChatInterface({
                 }
               }}
               disabled={isLoading}
-              className="flex-1"
+              className="flex-1 text-sm"
             />
             <Button 
               onClick={handleSend} 
@@ -336,27 +336,6 @@ export default function ChatInterface({
         <CardContent>
           {profile ? (
             <div className="space-y-5">
-              {/* Traits as bars */}
-              <div className="space-y-3">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                  Trait Signals
-                </p>
-                {Object.entries(profile.traits).map(([trait, value]) => (
-                  <div key={trait}>
-                    <div className="flex justify-between text-sm mb-1.5">
-                      <span className="capitalize font-medium">{trait}</span>
-                      <span className="text-muted-foreground font-mono">{(value * 100).toFixed(0)}%</span>
-                    </div>
-                    <div className="h-2.5 bg-secondary rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-primary transition-all duration-700 ease-out"
-                        style={{ width: `${value * 100}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
               {/* Interests */}
               {Object.keys(profile.interests).length > 0 && (
                 <div>

@@ -23,7 +23,7 @@ import { ArrowDown } from 'lucide-react';
 
 export default function NextStep() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-background/70 p-4 step-enter">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Image src="/stickman.png" alt="Info" width={16} height={16} className="h-4 w-4" />
@@ -37,7 +37,7 @@ export default function NextStep() {
       {/* Section 1 — Snapshot (Input) */}
       <Card className="transition-shadow hover:shadow-md step-enter-delay">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-lg font-bold">Your Social Snapshot</CardTitle>
+          <CardTitle className="text-base sm:text-lg font-bold">Your Social Snapshot</CardTitle>
           <p className="text-sm text-muted-foreground">Current system readout.</p>
         </CardHeader>
         <CardContent className="space-y-6 text-sm">
@@ -111,7 +111,7 @@ export default function NextStep() {
         </CardContent>
       </Card>
 
-      <div className="flex items-center gap-3 text-xs text-muted-foreground uppercase tracking-wide">
+      <div className="flex items-center gap-3 text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wide">
         <ArrowDown className="h-3 w-3" />
         How this shapes your group.
       </div>
@@ -119,7 +119,7 @@ export default function NextStep() {
       {/* Section 3 — Plan (Outcome) */}
       <Card className="transition-shadow hover:shadow-md step-enter-delay-2">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-lg font-bold">System-Generated Plan</CardTitle>
+          <CardTitle className="text-base sm:text-lg font-bold">System-Generated Plan</CardTitle>
           <p className="text-sm text-muted-foreground">Designed for this group.</p>
         </CardHeader>
         <CardContent className="space-y-4 text-sm">
@@ -147,7 +147,7 @@ export default function NextStep() {
       {/* Section 4 — Group cohesion signals */}
       <Card className="transition-shadow hover:shadow-md step-enter-delay-2">
         <CardHeader>
-          <CardTitle className="text-lg font-bold">Group cohesion signals</CardTitle>
+          <CardTitle className="text-base sm:text-lg font-bold">Group cohesion signals</CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground space-y-2">
           <p>Aligned energy levels.</p>

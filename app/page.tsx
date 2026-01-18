@@ -69,14 +69,14 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border px-6 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+      <header className="border-b border-border px-4 py-3 sm:px-6 sm:py-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between max-w-7xl mx-auto">
           <div className="flex items-center gap-2">
             <Image src="/stickman.png" alt="Takoa" width={24} height={24} className="h-6 w-6" />
-            <h1 className="text-xl font-bold">Takoa</h1>
-            <span className="text-muted-foreground text-sm ml-2">Find Your People</span>
+            <h1 className="text-lg font-bold sm:text-xl">Takoa</h1>
+            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2">Find Your People</span>
           </div>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
             <Link
               href="/about"
               className="font-semibold underline decoration-2 underline-offset-4 transition-colors hover:text-foreground"
@@ -88,15 +88,15 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6">
         {userProfile ? (
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 max-w-md">
-              <TabsTrigger value="chat" className="flex items-center gap-2 shadow-md">
+              <TabsTrigger value="chat" className="flex items-center gap-2 shadow-md text-xs sm:text-sm">
                 <MessageSquare className="h-4 w-4" />
                 Chat
               </TabsTrigger>
-              <TabsTrigger value="next" className="flex items-center gap-2" disabled={!isUnlocked}>
+              <TabsTrigger value="next" className="flex items-center gap-2 text-xs sm:text-sm" disabled={!isUnlocked}>
                 {isUnlocked ? <Compass className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
                 Next Step
               </TabsTrigger>
