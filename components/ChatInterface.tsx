@@ -33,15 +33,21 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { Send, Bot, User, Loader2, RotateCcw } from 'lucide-react';
-import { sendChatMessage, ChatMessage, ProfileUpdate, ChatResponse } from '@/lib/api';
+import { sendChatMessage, ChatMessage, ProfileUpdate, ChatResponse, SessionState } from '@/lib/api';
 
 interface ChatInterfaceProps {
   userId: string;
   userName?: string;
   onProfileUpdate?: () => void;
+  onProfileChange?: (profile: ProfileUpdate | null) => void;
 }
 
-export default function ChatInterface({ userId, userName, onProfileUpdate }: ChatInterfaceProps) {
+export default function ChatInterface({
+  userId,
+  userName,
+  onProfileUpdate,
+  onProfileChange
+}: ChatInterfaceProps) {
   const introMessage = userName
     ? `Hey ${userName}, let's get to know your vibe. What kind of people do you feel most at ease with?`
     : "Hey, let's get to know your vibe. What kind of people do you feel most at ease with?";
@@ -56,9 +62,11 @@ export default function ChatInterface({ userId, userName, onProfileUpdate }: Cha
   const [profile, setProfile] = useState<ProfileUpdate | null>(null);
   const [planVisible, setPlanVisible] = useState(false);
   const [itinerary, setItinerary] = useState<ChatResponse['itinerary'] | null>(null);
+  const [sessionState, setSessionState] = useState<SessionState | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const pendingTimeouts = useRef<number[]>([]);
+  const storageKey = `takoa_chat_state_${userId}`;
 
   // Auto-scroll to bottom on new messages
   const scrollToBottom = useCallback(() => {
@@ -73,6 +81,54 @@ export default function ChatInterface({ userId, userName, onProfileUpdate }: Cha
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
+
+  useEffect(() => {
+    onProfileChange?.(profile);
+  }, [onProfileChange, profile]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const stored = window.localStorage.getItem(storageKey);
+    if (!stored) return;
+    try {
+      const parsed = JSON.parse(stored) as {
+        messages?: ChatMessage[];
+        profile?: ProfileUpdate | null;
+        planVisible?: boolean;
+        itinerary?: ChatResponse['itinerary'] | null;
+        sessionState?: SessionState | null;
+      };
+      if (Array.isArray(parsed.messages) && parsed.messages.length > 0) {
+        setMessages(parsed.messages);
+      }
+      if (parsed.profile) {
+        setProfile(parsed.profile);
+      }
+      if (typeof parsed.planVisible === 'boolean') {
+        setPlanVisible(parsed.planVisible);
+      }
+      if (parsed.itinerary) {
+        setItinerary(parsed.itinerary);
+      }
+      if (parsed.sessionState) {
+        setSessionState(parsed.sessionState);
+      }
+    } catch {
+      window.localStorage.removeItem(storageKey);
+    }
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const payload = {
+      messages,
+      profile,
+      planVisible,
+      itinerary,
+      sessionState
+    };
+    window.localStorage.setItem(storageKey, JSON.stringify(payload));
+  }, [storageKey, messages, profile, planVisible, itinerary, sessionState]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -109,7 +165,7 @@ export default function ChatInterface({ userId, userName, onProfileUpdate }: Cha
     setIsLoading(true);
 
     try {
-      const response = await sendChatMessage(userId, userMessage, messages);
+      const response = await sendChatMessage(userId, userMessage, messages, sessionState);
       const fallbackMessage = (response as { assistantMessage?: string }).assistantMessage;
       const assistantMessages = response.assistantMessages?.length
         ? response.assistantMessages
@@ -121,6 +177,10 @@ export default function ChatInterface({ userId, userName, onProfileUpdate }: Cha
         setPlanVisible(true);
       } else if (response.done) {
         setPlanVisible(true);
+      }
+
+      if (response.sessionState) {
+        setSessionState(response.sessionState);
       }
       
       // Update profile with smooth transition
@@ -155,7 +215,7 @@ export default function ChatInterface({ userId, userName, onProfileUpdate }: Cha
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading, isChatReady, messages, onProfileUpdate, scheduleAssistantMessages, userId]);
+  }, [input, isLoading, isChatReady, messages, onProfileUpdate, scheduleAssistantMessages, sessionState, userId]);
 
   const handleReset = useCallback(() => {
     clearPendingTimeouts();
@@ -167,6 +227,7 @@ export default function ChatInterface({ userId, userName, onProfileUpdate }: Cha
     setInput('');
     setPlanVisible(false);
     setItinerary(null);
+    setSessionState(null);
     inputRef.current?.focus();
   }, [clearPendingTimeouts, introMessage]);
 

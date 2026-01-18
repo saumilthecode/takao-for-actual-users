@@ -71,6 +71,13 @@ export interface ProfileUpdate {
   confidence: number;
 }
 
+export interface SessionState {
+  asked_topics: string[];
+  collected_signals: string[];
+  stage: 'warmup' | 'preferences' | 'group-fit' | 'wrapup';
+  turn_count: number;
+}
+
 export interface UserProfile {
   id: string;
   name: string;
@@ -89,6 +96,7 @@ export interface ChatResponse {
     wednesday_study: { theme: string; location_hint: string; plan: string[] };
     friday_social: { theme: string; location_hint: string; plan: string[]; optional: true };
   };
+  sessionState?: SessionState;
 }
 
 export interface MatchExplanation {
@@ -119,12 +127,13 @@ export async function fetchGraph(mode: 'force' | 'embedding' = 'force'): Promise
 export async function sendChatMessage(
   userId: string,
   message: string,
-  history: ChatMessage[]
+  history: ChatMessage[],
+  sessionState?: SessionState | null
 ): Promise<ChatResponse> {
   const res = await fetch(`${API_BASE}/api/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId, message, history })
+    body: JSON.stringify({ userId, message, history, sessionState: sessionState || undefined })
   });
   if (!res.ok) throw new Error('Failed to send message');
   return res.json();

@@ -62,6 +62,30 @@ function getSessionState(userId: string): SessionState {
   return initial;
 }
 
+function coerceSessionState(value: unknown): SessionState | null {
+  if (!value || typeof value !== 'object') return null;
+  const raw = value as Partial<SessionState>;
+  const asked_topics = Array.isArray(raw.asked_topics)
+    ? raw.asked_topics.filter(item => typeof item === 'string').slice(-15)
+    : [];
+  const collected_signals = Array.isArray(raw.collected_signals)
+    ? raw.collected_signals.filter(item => typeof item === 'string').slice(-15)
+    : [];
+  const stage =
+    raw.stage === 'preferences' || raw.stage === 'group-fit' || raw.stage === 'wrapup'
+      ? raw.stage
+      : 'warmup';
+  const turn_count = Number.isFinite(raw.turn_count ?? NaN)
+    ? Math.max(0, Math.floor(raw.turn_count as number))
+    : 0;
+  return {
+    asked_topics,
+    collected_signals,
+    stage,
+    turn_count
+  };
+}
+
 function updateStage(turnCount: number, done: boolean): SessionState['stage'] {
   if (done || turnCount >= 10) return 'wrapup';
   if (turnCount >= 6) return 'group-fit';
@@ -123,7 +147,7 @@ export async function POST(request: NextRequest) {
   await ensureInitialized();
   try {
     const body = await request.json();
-    const { userId, message, history } = body;
+    const { userId, message, history, sessionState: incomingState } = body;
 
     if (!userId || !message) {
       return NextResponse.json(
@@ -133,7 +157,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Get response from LLM with structured profile extraction (with RAG)
-    const sessionState = getSessionState(userId);
+    const sessionState = coerceSessionState(incomingState) ?? getSessionState(userId);
+    sessionStore.set(userId, sessionState);
     const sessionContext = {
       asked_topics: sessionState.asked_topics,
       collected_signals: sessionState.collected_signals,
@@ -204,7 +229,8 @@ export async function POST(request: NextRequest) {
       signals: finalResponse.signals,
       confidence: finalResponse.confidence,
       done: finalResponse.done || shouldBeDone,
-      itinerary: finalResponse.itinerary || null
+      itinerary: finalResponse.itinerary || null,
+      sessionState
     });
   } catch (error) {
     console.error('Chat error:', error);
