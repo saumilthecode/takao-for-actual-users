@@ -119,7 +119,7 @@ export default function Home() {
         )}
       </div>
 
-      <footer className="mt-auto border-t border-border px-4 py-3 sm:px-6 sm:py-4 text-center text-xs text-muted-foreground">
+      <footer className="mt-auto border-t border-border px-4 py-3 text-center text-xs text-muted-foreground sm:hidden">
         made by ankita and saumil
       </footer>
     </main>

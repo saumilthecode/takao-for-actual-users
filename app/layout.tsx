@@ -55,7 +55,7 @@ export default function RootLayout({
           className="ambient-image"
           aria-hidden="true"
         />
-        <div className="pointer-events-none fixed bottom-4 left-6 text-[11px] text-muted-foreground">
+        <div className="pointer-events-none fixed bottom-4 left-6 hidden text-[11px] text-muted-foreground sm:block">
           Made by{' '}
           <a
             href="https://github.com/716r5"
