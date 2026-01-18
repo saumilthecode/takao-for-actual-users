@@ -67,7 +67,7 @@ export default function Home() {
   }, [activeTab, isUnlocked]);
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="border-b border-border px-4 py-3 sm:px-6 sm:py-4">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between max-w-7xl mx-auto">
@@ -88,7 +88,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 flex-1 w-full">
         {userProfile ? (
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 max-w-md h-11 sm:h-10">
@@ -119,6 +119,9 @@ export default function Home() {
         )}
       </div>
 
+      <footer className="mt-auto border-t border-border px-4 py-3 sm:px-6 sm:py-4 text-center text-xs text-muted-foreground">
+        made by ankita and saumil
+      </footer>
     </main>
   );
 }
