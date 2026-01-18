@@ -49,13 +49,13 @@ export default function OnboardingForm({ onComplete }: OnboardingFormProps) {
 
   return (
     <Card className="max-w-xl mx-auto">
-      <CardHeader>
+      <CardHeader className="p-4 sm:p-6">
         <CardTitle className="text-lg sm:text-xl">Welcome to Takoa</CardTitle>
         <p className="text-sm text-muted-foreground">
           Tell us a bit about you to start matching you with your circle.
         </p>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="text-sm font-medium mb-2 block">Name</label>

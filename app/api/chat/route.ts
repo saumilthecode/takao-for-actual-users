@@ -38,13 +38,13 @@ const sessionStore = new Map<string, SessionState>();
 const DEFAULT_ITINERARY = {
   wednesday_study: {
     theme: 'Focused study circle',
-    location_hint: 'On-campus study space',
-    plan: ['Arrive by 4pm', 'Study sprints + quick intros', 'Wrap by 7pm']
+    location_hint: 'Campus library (main floor)',
+    plan: ['7:00–7:10pm quick intros', '7:10–7:50pm study sprints', '7:50–8:00pm wrap-up']
   },
   friday_social: {
     theme: 'Optional casual hang',
-    location_hint: 'Near campus',
-    plan: ['Light food or dessert', 'Low-pressure chat', 'Head out by 9pm'],
+    location_hint: 'Student union café',
+    plan: ['6:30pm meet at the café', '6:30–7:45pm coffee/dessert + chat', 'Head out by 8pm'],
     optional: true as const
   }
 };

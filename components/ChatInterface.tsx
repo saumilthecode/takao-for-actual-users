@@ -238,7 +238,7 @@ export default function ChatInterface({
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
       {/* Chat Window */}
       <Card className="lg:col-span-2">
-        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-3">
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-3 p-4 sm:p-6">
           <CardTitle className="flex items-center gap-2">
             <Bot className="h-5 w-5 text-primary" />
             Signal Chat
@@ -250,10 +250,10 @@ export default function ChatInterface({
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
           {/* Messages */}
-          <ScrollArea className="h-[55vh] sm:h-[450px] pr-3 sm:pr-4">
-            <div className="space-y-4 pr-4">
+          <ScrollArea className="h-[50vh] sm:h-[450px] pr-2 sm:pr-4">
+            <div className="space-y-4 pr-2 sm:pr-4">
               {messages.map((msg, idx) => (
                 <div
                   key={idx}
@@ -270,7 +270,7 @@ export default function ChatInterface({
                       <Bot className="h-5 w-5" />
                     )}
                   </div>
-                  <div className={`max-w-[75%] rounded-lg px-4 py-3 shadow-sm ${
+                  <div className={`max-w-[82%] sm:max-w-[75%] rounded-lg px-3 sm:px-4 py-3 shadow-sm ${
                     msg.role === 'user' 
                       ? 'bg-primary text-primary-foreground' 
                       : 'bg-secondary text-secondary-foreground'
@@ -314,7 +314,7 @@ export default function ChatInterface({
               onClick={handleSend} 
               disabled={isLoading || !input.trim()}
               size="icon"
-              className="shrink-0 opacity-100"
+              className="shrink-0 opacity-100 h-10 w-10"
             >
               <Send className="h-4 w-4" />
             </Button>
@@ -324,7 +324,7 @@ export default function ChatInterface({
 
       {/* Profile Panel (Vector Visualization) */}
       <Card>
-        <CardHeader>
+        <CardHeader className="p-4 sm:p-6">
           <CardTitle className="text-lg flex items-center gap-2">
             <Image src="/stickman.png" alt="Signal" width={16} height={16} className="h-4 w-4" />
             Your Signal Profile
@@ -333,7 +333,7 @@ export default function ChatInterface({
             Real-time signal insights
           </p>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
           {profile ? (
             <div className="space-y-5">
               {/* Interests */}
@@ -392,13 +392,13 @@ export default function ChatInterface({
 
       {planVisible && (
         <Card>
-          <CardHeader>
+          <CardHeader className="p-4 sm:p-6">
             <CardTitle className="text-lg">Your Plan</CardTitle>
             <p className="text-sm text-muted-foreground">
               Shared with 4 other users (circle of 5)
             </p>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm">
+          <CardContent className="space-y-4 text-sm p-4 pt-0 sm:p-6 sm:pt-0">
             {studyPlan ? (
               <div>
                 <p className="font-medium">{studyPlan.theme}</p>

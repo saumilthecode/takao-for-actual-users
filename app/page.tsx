@@ -91,12 +91,12 @@ export default function Home() {
       <div className="max-w-7xl mx-auto p-4 sm:p-6">
         {userProfile ? (
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 max-w-md">
-              <TabsTrigger value="chat" className="flex items-center gap-2 shadow-md text-xs sm:text-sm">
+            <TabsList className="grid w-full grid-cols-2 max-w-md h-11 sm:h-10">
+              <TabsTrigger value="chat" className="flex items-center gap-2 shadow-md text-xs sm:text-sm py-2.5 sm:py-1.5">
                 <MessageSquare className="h-4 w-4" />
                 Chat
               </TabsTrigger>
-              <TabsTrigger value="next" className="flex items-center gap-2 text-xs sm:text-sm" disabled={!isUnlocked}>
+              <TabsTrigger value="next" className="flex items-center gap-2 text-xs sm:text-sm py-2.5 sm:py-1.5" disabled={!isUnlocked}>
                 {isUnlocked ? <Compass className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
                 Next Step
               </TabsTrigger>
@@ -111,7 +111,7 @@ export default function Home() {
             </TabsContent>
 
             <TabsContent value="next" className="mt-6">
-              <NextStep />
+              <NextStep userId={userProfile.id || sessionUserId} />
             </TabsContent>
           </Tabs>
         ) : (
