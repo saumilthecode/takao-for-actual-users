@@ -25,9 +25,14 @@ export default function OnboardingForm({ onComplete }: OnboardingFormProps) {
     event.preventDefault();
     setError('');
 
+    if (!name.trim()) {
+      setError('Please enter your name.');
+      return;
+    }
+
     const parsedAge = Number(age);
-    if (!name.trim() || !Number.isFinite(parsedAge) || parsedAge <= 0) {
-      setError('Please enter your name and age.');
+    if (!age.trim() || !Number.isFinite(parsedAge) || parsedAge <= 0 || parsedAge > 150) {
+      setError('Please enter a valid age (1-150).');
       return;
     }
 
@@ -71,10 +76,13 @@ export default function OnboardingForm({ onComplete }: OnboardingFormProps) {
             <div>
               <label className="text-sm font-medium mb-2 block">Age</label>
               <Input
+                type="number"
                 value={age}
-                onChange={(e) => setAge(e.target.value.replace(/\\D/g, ''))}
-                placeholder="20"
+                onChange={(e) => setAge(e.target.value.replace(/\D/g, ''))}
+                placeholder="number"
                 inputMode="numeric"
+                min="1"
+                max="150"
                 required
                 disabled={isSubmitting}
               />
