@@ -69,6 +69,7 @@ const SIGNAL_TO_TRAIT_WEIGHTS: Record<string, Partial<Traits>> = {
 
 const TRAIT_WEIGHT = 0.7;
 const SEMANTIC_WEIGHT = 0.3;
+const SEMANTIC_DIM = 16;
 
 function normalizeVector(vector: number[]): number[] {
   const norm = Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0));
@@ -83,10 +84,10 @@ function blendVectors(base: number[], update: number[], weight: number): number[
 }
 
 async function averageEmbeddings(texts: string[]): Promise<number[]> {
-  if (!texts.length) return [];
+  if (!texts.length) return new Array(SEMANTIC_DIM).fill(0);
   const embeddings = await Promise.all(texts.map(text => getTextEmbedding(text)));
   const length = embeddings[0]?.length || 0;
-  if (!length) return [];
+  if (!length) return new Array(SEMANTIC_DIM).fill(0);
   const summed = new Array(length).fill(0);
   embeddings.forEach(vec => {
     for (let i = 0; i < length; i += 1) {
@@ -110,12 +111,21 @@ async function buildSemanticVector(userId: string, interests: string[], messageT
 }
 
 function buildCombinedVector(traits: Traits, semantic: number[]): number[] {
+  const derivedTraits = [
+    clamp((traits.extraversion + traits.agreeableness) / 2, 0, 1),
+    clamp((traits.conscientiousness + (1 - traits.openness)) / 2, 0, 1),
+    clamp(1 - traits.neuroticism, 0, 1),
+    clamp((traits.openness + traits.extraversion) / 2, 0, 1),
+    clamp((traits.agreeableness + (1 - traits.neuroticism)) / 2, 0, 1)
+  ];
+
   const traitVector = normalizeVector([
     traits.openness,
     traits.conscientiousness,
     traits.extraversion,
     traits.agreeableness,
-    traits.neuroticism
+    traits.neuroticism,
+    ...derivedTraits
   ]).map(value => value * TRAIT_WEIGHT);
 
   const semanticVector = normalizeVector(semantic).map(value => value * SEMANTIC_WEIGHT);
@@ -129,10 +139,11 @@ function buildCombinedVector(traits: Traits, semantic: number[]): number[] {
 export async function initializeVectorStore(): Promise<void> {
   const users = await getAllUsers();
   vectorIndex.clear();
+  const expectedLength = buildCombinedVector(DEFAULT_TRAITS, new Array(SEMANTIC_DIM).fill(0)).length;
 
   for (const user of users) {
     let combined = user.vector;
-    if (!combined || combined.length === 0) {
+    if (!combined || combined.length === 0 || combined.length !== expectedLength) {
       const semantic = await buildSemanticVector(user.id, user.interests);
       combined = buildCombinedVector(user.traits, semantic);
       user.vector = combined;
@@ -221,9 +232,11 @@ export async function updateUserVector(
   if (user) {
     // Blend old and new based on confidence
     const blendFactor = profileUpdate.confidence * 0.3; // Gradual updates
-    const blendedVector = user.vector.map((oldVal, idx) => 
-      oldVal * (1 - blendFactor) + (newVector[idx] ?? 0) * blendFactor
-    );
+    const blendedVector = user.vector.length === newVector.length
+      ? user.vector.map((oldVal, idx) =>
+          oldVal * (1 - blendFactor) + (newVector[idx] ?? 0) * blendFactor
+        )
+      : newVector;
 
     user.vector = blendedVector;
     user.traits = profileUpdate.traits;

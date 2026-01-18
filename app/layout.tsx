@@ -56,7 +56,7 @@ export default function RootLayout({
           aria-hidden="true"
         />
         <div className="pointer-events-none fixed bottom-4 left-6 hidden text-[11px] text-muted-foreground sm:block">
-          Made by{' '}
+          Made By{' '}
           <a
             href="https://github.com/716r5"
             className="pointer-events-auto underline underline-offset-2"
