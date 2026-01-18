@@ -4,12 +4,12 @@ export default function About() {
   return (
     <main className="min-h-screen bg-background">
       <header className="border-b border-border px-4 py-3 sm:px-6 sm:py-4">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between max-w-7xl mx-auto">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-3 max-w-7xl mx-auto">
+          <div className="flex items-center gap-2 min-w-0">
             <h1 className="text-lg font-bold sm:text-xl">Takoa</h1>
-            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2">Find Your People</span>
+            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2 truncate">Find Your People</span>
           </div>
-          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
+          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground shrink-0">
             <Link href="/" className="transition-colors hover:text-foreground">
               Home
             </Link>
