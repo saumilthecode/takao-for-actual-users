@@ -119,8 +119,25 @@ export default function Home() {
         )}
       </div>
 
-      <footer className="mt-auto border-t border-border px-4 py-3 text-center text-xs text-muted-foreground sm:hidden">
-        made by ankita and saumil
+      <footer className="mt-auto px-4 py-3 text-center text-xs text-muted-foreground sm:hidden">
+        made by{' '}
+        <a
+          href="https://github.com/716r5"
+          className="underline underline-offset-2"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Ankita
+        </a>{' '}
+        and{' '}
+        <a
+          href="https://github.com/saumilthecode"
+          className="underline underline-offset-2"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Saumil
+        </a>
       </footer>
     </main>
   );
