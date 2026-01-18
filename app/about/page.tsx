@@ -5,12 +5,14 @@ export default function About() {
     <main className="min-h-screen bg-background">
       <header className="border-b border-border px-4 py-3 sm:px-6 sm:py-4">
         <div className="flex items-center justify-between gap-3 max-w-7xl mx-auto">
-          <Link href="/" className="flex items-center gap-2 min-w-0">
+          <Link href="/" className="flex items-center gap-2 min-w-0 leading-none">
             <img src="/stickman.png" alt="Takoa" className="h-6 w-6" />
             <h1 className="text-lg font-bold sm:text-xl">Takoa</h1>
-            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2 truncate">Find Your People</span>
+            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2 truncate leading-none">
+              Find Your People
+            </span>
           </Link>
-          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground shrink-0">
+          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground shrink-0 leading-none">
             <Link href="/" className="transition-colors hover:text-foreground">
               Home
             </Link>
@@ -25,7 +27,7 @@ export default function About() {
           <p className="text-sm text-muted-foreground">Inspired by wabi.ai&apos;s about page.</p>
         </div>
 
-        <div className="space-y-3 sm:space-y-4 text-sm sm:text-base leading-relaxed">
+        <div className="space-y-3 sm:space-y-4 text-base sm:text-lg leading-relaxed">
           <p>
             Apps like Bumble BFF and offline events such as Timeleft and weAreNeverReallyStrangers
             promised a better way to make friends. Friend-finder apps full of promise.

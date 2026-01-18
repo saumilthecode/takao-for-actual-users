@@ -85,19 +85,19 @@ export default function Home() {
         <div className="flex items-center justify-between gap-3 max-w-7xl mx-auto">
           <a
             href={isUnlocked ? meetingLink : '/'}
-            className="flex items-center gap-2 min-w-0"
+            className="flex items-center gap-2 min-w-0 leading-none"
             aria-label="Takoa"
           >
             <Image src="/stickman.png" alt="Takoa" width={24} height={24} className="h-6 w-6" />
             <h1 className="text-lg font-bold sm:text-xl">Takoa</h1>
-            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2 truncate">
+            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2 truncate leading-none">
               Find Your People
             </span>
           </a>
-          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground shrink-0">
+          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground shrink-0 leading-none">
             <Link
               href="/about"
-              className="font-semibold underline decoration-2 underline-offset-4 transition-colors hover:text-foreground"
+              className="font-semibold underline decoration-2 underline-offset-4 transition-colors hover:text-foreground leading-none"
             >
               About
             </Link>
