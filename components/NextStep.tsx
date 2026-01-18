@@ -184,7 +184,7 @@ export default function NextStep({ userId }: NextStepProps) {
       {/* Section 3 — Plan (Outcome) */}
       <Card className="transition-shadow hover:shadow-md step-enter-delay-2">
         <CardHeader className="space-y-1 p-4 sm:p-6">
-          <CardTitle className="text-base sm:text-lg font-bold">System-Generated Plan</CardTitle>
+          <CardTitle className="text-base sm:text-lg font-bold">Plan</CardTitle>
           <p className="text-sm text-muted-foreground">Designed for this group.</p>
         </CardHeader>
         <CardContent className="space-y-4 text-sm p-4 pt-0 sm:p-6 sm:pt-0">

@@ -23,7 +23,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MessageSquare, Compass, Lock } from 'lucide-react';
 import ChatInterface from '@/components/ChatInterface';
 import OnboardingForm from '@/components/OnboardingForm';
-import { UserProfile } from '@/lib/api';
+import { ChatResponse, UserProfile } from '@/lib/api';
 import NextStep from '@/components/NextStep';
 
 export default function Home() {
@@ -31,6 +31,7 @@ export default function Home() {
   const reactId = useId();
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileConfidence, setProfileConfidence] = useState(0);
+  const [itinerary, setItinerary] = useState<ChatResponse['itinerary'] | null>(null);
   const sessionUserId = useMemo(
     () => `user_${reactId.replace(/[:]/g, '')}`,
     [reactId]
@@ -53,12 +54,23 @@ export default function Home() {
     setProfileConfidence(profile?.confidence ?? 0);
   };
 
+  const handleItineraryChange = (nextItinerary: ChatResponse['itinerary'] | null) => {
+    setItinerary(nextItinerary);
+  };
+
   const handleOnboardingComplete = (user: UserProfile) => {
     setUserProfile(user);
     window.localStorage.setItem('takoa_user', JSON.stringify(user));
   };
 
   const isUnlocked = profileConfidence >= 0.8;
+
+  const meetingLocation = itinerary?.wednesday_study?.location_hint
+    || itinerary?.friday_social?.location_hint
+    || '';
+  const meetingLink = meetingLocation
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(meetingLocation)}`
+    : '/';
 
   useEffect(() => {
     if (!isUnlocked && activeTab !== 'chat') {
@@ -70,13 +82,19 @@ export default function Home() {
     <main className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="border-b border-border px-4 py-3 sm:px-6 sm:py-4">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between max-w-7xl mx-auto">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-3 max-w-7xl mx-auto">
+          <a
+            href={isUnlocked ? meetingLink : '/'}
+            className="flex items-center gap-2 min-w-0"
+            aria-label="Takoa"
+          >
             <Image src="/stickman.png" alt="Takoa" width={24} height={24} className="h-6 w-6" />
             <h1 className="text-lg font-bold sm:text-xl">Takoa</h1>
-            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2">Find Your People</span>
-          </div>
-          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
+            <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2 truncate">
+              Find Your People
+            </span>
+          </a>
+          <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground shrink-0">
             <Link
               href="/about"
               className="font-semibold underline decoration-2 underline-offset-4 transition-colors hover:text-foreground"
@@ -107,6 +125,7 @@ export default function Home() {
                 userId={userProfile.id || sessionUserId}
                 userName={userProfile.name}
                 onProfileChange={handleProfileChange}
+                onItineraryChange={handleItineraryChange}
               />
             </TabsContent>
 

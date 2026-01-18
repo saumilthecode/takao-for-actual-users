@@ -6,6 +6,7 @@ export default function About() {
       <header className="border-b border-border px-4 py-3 sm:px-6 sm:py-4">
         <div className="flex items-center justify-between gap-3 max-w-7xl mx-auto">
           <div className="flex items-center gap-2 min-w-0">
+            <img src="/stickman.png" alt="Takoa" className="h-6 w-6" />
             <h1 className="text-lg font-bold sm:text-xl">Takoa</h1>
             <span className="text-muted-foreground text-xs sm:text-sm ml-1.5 sm:ml-2 truncate">Find Your People</span>
           </div>

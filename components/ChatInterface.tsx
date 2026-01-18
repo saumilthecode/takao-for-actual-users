@@ -40,13 +40,15 @@ interface ChatInterfaceProps {
   userName?: string;
   onProfileUpdate?: () => void;
   onProfileChange?: (profile: ProfileUpdate | null) => void;
+  onItineraryChange?: (itinerary: ChatResponse['itinerary'] | null) => void;
 }
 
 export default function ChatInterface({
   userId,
   userName,
   onProfileUpdate,
-  onProfileChange
+  onProfileChange,
+  onItineraryChange
 }: ChatInterfaceProps) {
   const introMessage = userName
     ? `Hey ${userName}, let's get to know your vibe. What kind of people do you feel most at ease with?`
@@ -85,6 +87,10 @@ export default function ChatInterface({
   useEffect(() => {
     onProfileChange?.(profile);
   }, [onProfileChange, profile]);
+
+  useEffect(() => {
+    onItineraryChange?.(itinerary ?? null);
+  }, [itinerary, onItineraryChange]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -240,8 +246,8 @@ export default function ChatInterface({
       <Card className="lg:col-span-2">
         <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-3 p-4 sm:p-6">
           <CardTitle className="flex items-center gap-2">
-            <Bot className="h-5 w-5 text-primary" />
-            Signal Chat
+            <Image src="/stickman.png" alt="Takoa" width={20} height={20} className="h-5 w-5" />
+            Chat
           </CardTitle>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={handleReset} disabled={isLoading}>

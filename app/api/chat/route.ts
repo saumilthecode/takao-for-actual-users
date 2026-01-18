@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ensureInitialized } from '@/src/init';
 import { chatWithBot } from '@/src/services/llm';
+import { getUserById } from '@/src/data/users';
 import { buildProfileUpdateFromSignals, updateUserVector } from '@/src/services/vectorStore';
 
 const ALLOWED_TOPICS = [
@@ -48,6 +49,59 @@ const DEFAULT_ITINERARY = {
     optional: true as const
   }
 };
+
+function getCampusLocationHints(uni: string | null | undefined) {
+  const normalized = (uni || '').toLowerCase();
+  if (normalized.includes('ntu')) {
+    return {
+      study: 'NTU Lee Wee Nam Library (main floor)',
+      social: 'NTU North Spine Food Court'
+    };
+  }
+  if (normalized.includes('nus')) {
+    return {
+      study: 'NUS UTown Town Plaza',
+      social: 'NUS UTown Starbucks'
+    };
+  }
+  if (normalized.includes('smu')) {
+    return {
+      study: 'SMU Li Ka Shing Library',
+      social: 'SMU Campus Green'
+    };
+  }
+  if (normalized.includes('sutd')) {
+    return {
+      study: 'SUTD Library',
+      social: 'SUTD Kopitiam'
+    };
+  }
+  if (normalized.includes('sim')) {
+    return {
+      study: 'SIM Library',
+      social: 'SIM Campus Food Court'
+    };
+  }
+  return {
+    study: 'Campus library',
+    social: 'Student union café'
+  };
+}
+
+function applyLocationHints(itinerary: typeof DEFAULT_ITINERARY, uni: string | null | undefined) {
+  const hints = getCampusLocationHints(uni);
+  return {
+    ...itinerary,
+    wednesday_study: {
+      ...itinerary.wednesday_study,
+      location_hint: hints.study
+    },
+    friday_social: {
+      ...itinerary.friday_social,
+      location_hint: hints.social
+    }
+  };
+}
 
 function getSessionState(userId: string): SessionState {
   const existing = sessionStore.get(userId);
@@ -221,6 +275,11 @@ export async function POST(request: NextRequest) {
 
     // Update user's vector in the store if profile changed
     await updateUserVector(userId, profileUpdate, message);
+
+    const user = await getUserById(userId);
+    if (finalResponse.itinerary) {
+      finalResponse.itinerary = applyLocationHints(finalResponse.itinerary, user?.uni);
+    }
 
     return NextResponse.json({
       assistantMessages: finalResponse.assistantMessages,
