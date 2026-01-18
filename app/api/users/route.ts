@@ -11,9 +11,9 @@ export async function POST(request: NextRequest) {
     const age = Number(body?.age);
     const uni = String(body?.uni || '').trim();
 
-    if (!name || !Number.isFinite(age) || age <= 0 || !uni) {
+    if (!name || !Number.isFinite(age) || age <= 0) {
       return NextResponse.json(
-        { error: 'name, age, and uni are required' },
+        { error: 'name and age are required' },
         { status: 400 }
       );
     }
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       id: crypto.randomUUID(),
       name,
       age,
-      uni,
+      uni: uni || 'nill',
       vector: [],
       traits: { ...DEFAULT_TRAITS },
       interests: [],

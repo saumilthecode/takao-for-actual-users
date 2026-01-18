@@ -26,8 +26,8 @@ export default function OnboardingForm({ onComplete }: OnboardingFormProps) {
     setError('');
 
     const parsedAge = Number(age);
-    if (!name.trim() || !uni.trim() || !Number.isFinite(parsedAge) || parsedAge <= 0) {
-      setError('Please enter your name, age, and university.');
+    if (!name.trim() || !Number.isFinite(parsedAge) || parsedAge <= 0) {
+      setError('Please enter your name and age.');
       return;
     }
 
@@ -36,7 +36,7 @@ export default function OnboardingForm({ onComplete }: OnboardingFormProps) {
       const { user } = await createUser({
         name: name.trim(),
         age: parsedAge,
-        uni: uni.trim()
+        uni: uni.trim() || 'nill'
       });
       onComplete(user);
     } catch (err) {
@@ -48,7 +48,7 @@ export default function OnboardingForm({ onComplete }: OnboardingFormProps) {
   };
 
   return (
-    <Card className="max-w-xl mx-auto">
+    <Card className="max-w-xl mx-auto bg-background/70 backdrop-blur-sm">
       <CardHeader className="p-4 sm:p-6">
         <CardTitle className="text-lg sm:text-xl">Welcome to Takoa</CardTitle>
         <p className="text-sm text-muted-foreground">
@@ -80,12 +80,11 @@ export default function OnboardingForm({ onComplete }: OnboardingFormProps) {
               />
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">University</label>
+              <label className="text-sm font-medium mb-2 block">University (optional)</label>
               <Input
                 value={uni}
                 onChange={(e) => setUni(e.target.value)}
-                placeholder="Your university"
-                required
+                placeholder="Your university or nill"
                 disabled={isSubmitting}
               />
             </div>
