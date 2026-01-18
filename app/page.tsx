@@ -20,17 +20,17 @@ import { useState, useId, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MessageSquare, Globe } from 'lucide-react';
+import { MessageSquare, Compass, Lock } from 'lucide-react';
 import ChatInterface from '@/components/ChatInterface';
-import SocialGraph from '@/components/SocialGraph';
 import OnboardingForm from '@/components/OnboardingForm';
 import { UserProfile } from '@/lib/api';
+import NextStep from '@/components/NextStep';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('chat');
-  const [graphRefreshKey, setGraphRefreshKey] = useState(0);
   const reactId = useId();
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [profileConfidence, setProfileConfidence] = useState(0);
   const sessionUserId = useMemo(
     () => `user_${reactId.replace(/[:]/g, '')}`,
     [reactId]
@@ -49,15 +49,22 @@ export default function Home() {
     }
   }, []);
 
-  const handleProfileUpdate = () => {
-    // Trigger graph refresh when chat updates profile
-    setGraphRefreshKey(prev => prev + 1);
+  const handleProfileChange = (profile: { confidence: number } | null) => {
+    setProfileConfidence(profile?.confidence ?? 0);
   };
 
   const handleOnboardingComplete = (user: UserProfile) => {
     setUserProfile(user);
     window.localStorage.setItem('takoa_user', JSON.stringify(user));
   };
+
+  const isUnlocked = profileConfidence >= 0.8;
+
+  useEffect(() => {
+    if (!isUnlocked && activeTab !== 'chat') {
+      setActiveTab('chat');
+    }
+  }, [activeTab, isUnlocked]);
 
   return (
     <main className="min-h-screen bg-background">
@@ -89,9 +96,9 @@ export default function Home() {
                 <MessageSquare className="h-4 w-4" />
                 Chat
               </TabsTrigger>
-              <TabsTrigger value="space" className="flex items-center gap-2">
-                <Globe className="h-4 w-4" />
-                Space
+              <TabsTrigger value="next" className="flex items-center gap-2" disabled={!isUnlocked}>
+                {isUnlocked ? <Compass className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+                Next Step
               </TabsTrigger>
             </TabsList>
 
@@ -99,12 +106,12 @@ export default function Home() {
               <ChatInterface
                 userId={userProfile.id || sessionUserId}
                 userName={userProfile.name}
-                onProfileUpdate={handleProfileUpdate}
+                onProfileChange={handleProfileChange}
               />
             </TabsContent>
 
-            <TabsContent value="space" className="mt-6">
-              <SocialGraph key={graphRefreshKey} focusUserId={userProfile.id || sessionUserId} />
+            <TabsContent value="next" className="mt-6">
+              <NextStep />
             </TabsContent>
           </Tabs>
         ) : (
