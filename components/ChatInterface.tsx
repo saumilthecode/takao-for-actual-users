@@ -335,6 +335,9 @@ export default function ChatInterface({ userId, userName, onProfileUpdate }: Cha
                     </span>
                   </div>
                 </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  You’ll unlock the rest of the app once your confidence reaches 80%.
+                </p>
               </div>
             </div>
           ) : (
