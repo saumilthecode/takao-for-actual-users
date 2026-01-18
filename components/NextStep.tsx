@@ -212,7 +212,7 @@ export default function NextStep({ userId }: NextStepProps) {
                 )}
                 {itinerary?.friday_social && (
                   <div className="rounded-lg border border-border px-3 py-2">
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Friday (optional)</p>
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Friday</p>
                     <p className="font-medium">{itinerary.friday_social.location_hint}</p>
                     <ul className="mt-1 space-y-1 text-xs text-muted-foreground">
                       {itinerary.friday_social.plan.map((item, idx) => (

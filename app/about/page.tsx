@@ -19,13 +19,13 @@ export default function About() {
         </div>
       </header>
 
-      <section className="max-w-3xl mx-auto px-4 py-8 sm:px-6 sm:py-12 space-y-6 sm:space-y-8 text-foreground">
+      <section className="max-w-3xl mx-auto px-4 py-8 sm:px-6 sm:py-12 space-y-5 sm:space-y-6 text-foreground">
         <div className="space-y-3">
           <h2 className="text-2xl sm:text-3xl font-semibold">Takoa - Find Your People</h2>
           <p className="text-sm text-muted-foreground">Inspired by wabi.ai&apos;s about page.</p>
         </div>
 
-        <div className="space-y-5 text-sm sm:text-base leading-relaxed">
+        <div className="space-y-3 sm:space-y-4 text-sm sm:text-base leading-relaxed">
           <p>
             Apps like Bumble BFF and offline events such as Timeleft and weAreNeverReallyStrangers
             promised a better way to make friends. Friend-finder apps full of promise.
