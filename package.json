@@ -23,7 +23,7 @@
     "fastify": "^4.26.0",
     "hnswlib-node": "^3.0.0",
     "lucide-react": "^0.312.0",
-    "next": "^14.2.35",
+    "next": "^16.1.5",
     "openai": "^4.28.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
